@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  linkio:
+    image: rafaelaugustor/link.io:1.0
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      MONGODB_USERNAME: ${MONGODB_USERNAME:-root}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD:-linkio}
+      MONGODB_DATABASE: ${MONGODB_DATABASE:-linkio}
+  mongo:
+    image: mongo:6.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD:-linkio}
+      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE:-linkio}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
